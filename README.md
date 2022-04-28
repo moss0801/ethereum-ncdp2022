@@ -34,6 +34,8 @@ contract/build/contract/Token.json 에서 ABI 와 bytecode 확인 가능
 * [_1_txLegacy.js](./script/_1_txLegacy.js) : transfer() 호출 - Type 0 Legacy Transaction 이용
 * [_2_txType1.js](./script/_2_txType1.js) : transfer() 호출 - Type 1[EIP-2930: Optional access lists] 이용
 * [_3_txType2.js](./script/_3_txType2.js) : transfer() 호출 - Type 2[EIP-1559: Fee market change for ETH 1.0 chain] 이용
+* [_4_web3ContractType0.js](./script/_4_web3ContractType0.js) : transfer() 호출 - Type0, web3&contract abi 를 이용한 호출
+* [_5_web3ContractType2.js](./script/_5_web3ContractType2.js) : transfer() 호출 - Type2, web3&contract abi 를 이용한 호출
 
 # 실행
 
@@ -66,4 +68,20 @@ Ganache Startup Options : https://github.com/trufflesuite/ganache#startup-option
 * 
 ```
 ganache -i 5666 --chain.chainId 4693 -m "fire entire drive car hole credit stumble endless empty rice wash banner" -p 7545 -g "0x6FC23AC00" --database.dbPath "d:\ganache4693"  
+```
+
+## Contract 배포
+```
+cd script
+node _0_deployContract.js
+```
+
+## transfer 트랜잭션 실행
+
+```
+node _1_txLegacy.js
+node _2_txType1.js
+node _3_txType2.js
+node _4_web3ContractType0.js
+node _5_web3ContractType2.js
 ```
