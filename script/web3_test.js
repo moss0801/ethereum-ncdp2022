@@ -10,4 +10,10 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
     });
 
     console.log(result);
+
+    // const receipt = await web3.eth.getTransactionReceipt('0xaf1ad2f6b02595cfcf8fdbb78e69be2f15e762c915dcf708fdfe3d1f02c80848');
+    // console.log(receipt.logs[0].topics);
+
+    const balance = await web3.eth.getBalance('0x942F397B7f4391B43115395F469c63072aEd6E41');
+    console.log(balance);
 })();

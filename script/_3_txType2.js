@@ -16,52 +16,53 @@ function hex(buffer, prefix = true) {
 }
 
 (async () => {
-    console.log('=============================================')
+    console.log('=========================')
     console.log('==== Type 2 EIP-1559 ====')
-    console.log('=============================================')
+    console.log('=========================')
 
     // Prepare
-    const chainId = 4693;
     const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
+    const chainId = '0x' + (await web3.eth.getChainId()).toString(16);  // 4693
     const privateKey = '8d46f2260091f89d63a73a2171234835d272e0cab9fb630b4306aaf72f22e830';
-
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-    console.log(account.address);
-    if (account.address !== '0x942F397B7f4391B43115395F469c63072aEd6E41') {
-        throw new Error('address is not equal');
-    }
 
     const type2 = Buffer.from('02', 'hex');
-    //const nonce = await web3.eth.getTransactionCount('0x942F397B7f4391B43115395F469c63072aEd6E41');
-    const nonce = "0x05";  //await web3.eth.getTransactionCount('0x942F397B7f4391B43115395F469c63072aEd6E41');
-    //const maxPriorityFeePerGas = "0x";  // 0 wei
+
+    const nonce = await web3.eth.getTransactionCount(account.address);
+
+    const destination = "0x60e69B73db38D52C70690a8EfCeE30383190CDFA".toLowerCase();
+    // data: ABI Encoding of transfer('0x911D6B77014FA58aFD85BE49e5148CBEAA3FeE39', 1000)
+    const data = "0xa9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e8";
+    const estimateGas = await web3.eth.estimateGas({
+        from: account.address,
+        to: destination,
+        data: data
+    });
+    console.log(`estimateGas : ${estimateGas}`);
+
     const maxPriorityFeePerGas = '0x9502f900';  // 2500000000 wei
     const maxFeePerGas = "0x06fc23ac00"; // 30 * 10 ** 9 wei
-    //const gasLimit = "0x0f4240"; // 100,000 gas
-    const gasLimit = "0x894A";  // 35146
-    const destination = "0x60e69B73db38D52C70690a8EfCeE30383190CDFA".toLowerCase();
+    const gasLimit = estimateGas;
     const amount = "0x";  // 0 wei
-    const data = "0xa9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e8";
     const accessList = [];
-
     let signatureYParity = "0x";  // 0
     let signatureR = '0x';  // 0
     let signatureS = '0x';  // 0
 
     // Legacy Transaction (Type 0) without chainId(EIP-155)
     console.log('\n>> Prepare Sign')
-    // rlp([chain_id, nonce, max_priority_fee_per_gas, max_fee_per_gas, gas_limit, destination, amount, data, access_list, signature_y_parity, signature_r, signature_s])
+    // 0x02 || rlp([chain_id, nonce, max_priority_fee_per_gas, max_fee_per_gas, gas_limit, destination, amount, data, access_list, signature_y_parity, signature_r, signature_s])
     const txItems = [
-        '0x' + chainId.toString(16), nonce,
+        chainId, nonce,
         maxPriorityFeePerGas, maxFeePerGas, gasLimit,
         destination, amount, data, accessList];
-    console.log(txItems);
+    console.log(`txItems: ${txItems}`);
     const txRlp = RLP.encode(txItems);
-    console.log('txRlp: ' + hex(txRlp));
+    console.log(`txRlp: ${hex(txRlp)}`);
 
     // 0x02 || rlp(items)
     const txHash = util.keccak256(Buffer.concat([type2, txRlp]));
-    console.log('txHash: ' + hex(txHash));
+    console.log(`txHash: ${hex(txHash)}`);
 
     //// ECDSA sign 생성
     console.log('\n>> Sign(ECDSA)')
@@ -71,28 +72,28 @@ function hex(buffer, prefix = true) {
     signatureYParity = recId === 0 ? '0x' : '0x1';
     signatureR = Buffer.from(signature.slice(0, 32))
     signatureS = Buffer.from(signature.slice(32, 64))
-    console.log('recId: ' + recId);
-    console.log('signatureYParity: ' + signatureYParity);
-    console.log('signatureR: ' + hex(signatureR));
-    console.log('signatureS: ' + hex(signatureS));
+    console.log(`recId: ${recId}`);
+    console.log(`signatureYParity: ${signatureYParity}`);
+    console.log(`signatureR: ${hex(signatureR)}`);
+    console.log(`signatureS: ${hex(signatureS)}`);
 
     //// Signed Tx with v,r,s
     console.log('>> Signed Transaction')
     const signedTxItems = [
-        '0x' + chainId.toString(16), nonce,
+        chainId, nonce,
         maxPriorityFeePerGas, maxFeePerGas, gasLimit,
         destination, amount, data, accessList,
-        '0x', hex(signatureR), hex(signatureS)];
-    console.log(signedTxItems);
+        signatureYParity, hex(signatureR), hex(signatureS)];
+    console.log(`signedTxItems: ${signedTxItems}`);
 
     const signedTxRlp = RLP.encode(signedTxItems);
-    console.log('signedTxRlp: \n' + hex(signedTxRlp));
+    console.log(`signedTxRlp: \n${hex(signedTxRlp)}`);
 
     const signedTx = Buffer.concat([type2, signedTxRlp]);
-    console.log('signedTx : ' + hex(signedTx));
+    console.log(`signedTx : ${hex(signedTx)}`);
 
     const signedTxHash = util.keccak256(signedTx);
-    console.log('signedTxHash : ' + hex(signedTxHash));
+    console.log(`signedTxHash : ${hex(signedTxHash)}`);
 
     //// Send Transaction
     console.log('\n>> Send Transaction')

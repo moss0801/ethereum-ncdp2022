@@ -15,35 +15,35 @@ function hex(buffer, prefix = true) {
     return (prefix ? '0x' : '') + buffer.toString('hex');
 }
 
+
+
 (async () => {
     console.log('=============================================')
     console.log('==== Type 0 Legacy with chainId(EIP-155) ====')
     console.log('=============================================')
 
     // Prepare
-    const chainId = 4693;
     const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
+    const chainId = await web3.eth.getChainId();  // 4693
     const privateKey = '8d46f2260091f89d63a73a2171234835d272e0cab9fb630b4306aaf72f22e830';
-
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-    console.log(account.address);
-    if (account.address !== '0x942F397B7f4391B43115395F469c63072aEd6E41') {
-        throw new Error('address is not equal');
-    }
-    const nonce = await web3.eth.getTransactionCount('0x942F397B7f4391B43115395F469c63072aEd6E41');
+
+    const nonce = await web3.eth.getTransactionCount(account.address);
     const gasPrice = "0x06fc23ac00"; // 30 * 10 ** 9 wei
     const gasLimit = "0x0f4240"; // 100,000 gas
-    const to = "0x60e69B73db38D52C70690a8EfCeE30383190CDFA".toLowerCase();
+    const to = "0x60e69B73db38D52C70690a8EfCeE30383190CDFA";
     const value = "0x";  // 0 wei
+    // data: ABI Encoding of transfer('0x911D6B77014FA58aFD85BE49e5148CBEAA3FeE39', 1000)
     const data = "0xa9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e8";
-    let v = '0x' + chainId.toString(16);
+    let v = '0x' + chainId.toString(16);  // EIP-155: chainId를 포함하여 서명을 위한 Hash 생성
     let r = '0x';  // 0
     let s = '0x';  // 0
 
     // Legacy Transaction (Type 0) without chainId(EIP-155)
     console.log('\n>> Prepare Sign')
     const txItems = [nonce, gasPrice, gasLimit, to, value, data, v, r, s];
-    console.log(txItems);
+    console.log('txItems: ' + txItems);
+
     const txRlp = RLP.encode(txItems);
     console.log('txRlp: ' + hex(txRlp));
 
@@ -61,8 +61,8 @@ function hex(buffer, prefix = true) {
     // https://tools.ietf.org/id/draft-jivsov-ecc-compact-05.html
     // {02, 03, 04}, where 02 or 03 represent a compressed point (x only), while 04 represents a complete point (x,y)
     // 공개키 y값이 짝수 => recId = 0, 홀수 => recId = 1
-    // recId = 0 => 02, recId = 1 => 03
-    v = new util.BN(chainId * 2 + 35 + recId);
+    // recovery시 recId = 0 => 02, recId = 1 => 03
+    v = new util.BN(chainId * 2 + 35 + recId);  // EIP-155 (chainId * 2 + 35 + signatureRParity)
     r = Buffer.from(signature.slice(0, 32))
     s = Buffer.from(signature.slice(32, 64))
     console.log('recId: ' + recId);
@@ -87,3 +87,44 @@ function hex(buffer, prefix = true) {
     web3.eth.sendSignedTransaction(hex(signedTxRlp))
         .on('receipt', console.log);
 })();
+
+// receipt
+// {
+//     transactionHash: '0xaf1ad2f6b02595cfcf8fdbb78e69be2f15e762c915dcf708fdfe3d1f02c80848',
+//     transactionIndex: 0,
+//     blockNumber: 2,
+//     blockHash: '0x6e3895e8c1f4938d95f798ba06511d50a5f6d9a02a1c5c385e31f9130857aa1f',
+//     from: '0x942f397b7f4391b43115395f469c63072aed6e41',
+//     to: '0x60e69b73db38d52c70690a8efcee30383190cdfa',
+//     cumulativeGasUsed: 52246,
+//     gasUsed: 52246,
+//     contractAddress: null,
+//     logs: [
+//         {
+//             address: '0x60e69B73db38D52C70690a8EfCeE30383190CDFA',
+//             blockHash: '0x6e3895e8c1f4938d95f798ba06511d50a5f6d9a02a1c5c385e31f9130857aa1f',
+//             blockNumber: 2,
+//             data: '0x00000000000000000000000000000000000000000000000000000000000003e8',
+//             logIndex: 0,
+//             removed: false,
+//             topics: [Array],
+//             transactionHash: '0xaf1ad2f6b02595cfcf8fdbb78e69be2f15e762c915dcf708fdfe3d1f02c80848',
+//             transactionIndex: 0,
+//             id: 'log_117475a0'
+//         }
+//     ],
+//     logsBloom: '0x000000000040000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000080000000400000000000000000000000000000000000100040000000000000400
+//     0000000000000000000000000000001000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000240000000000020000000000000000000000000000000000000000000
+//     0000000000000000000000000000000000000000000000000000000000000000',
+//     status: true,
+//     effectiveGasPrice: 30000000000,
+//     type: '0x0'
+// }
+
+
+// receipt.logs[0].topics
+// [
+//     '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+//     '0x000000000000000000000000942f397b7f4391b43115395f469c63072aed6e41',
+//     '0x000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee39'
+// ]
