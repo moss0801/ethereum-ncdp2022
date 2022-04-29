@@ -63,9 +63,7 @@ Ganache Startup Options : https://github.com/trufflesuite/ganache#startup-option
 * -k, --chain.hardfork : "london" (default)
 * --database.dbPath : "d:\ganache4693" (적절하게 수정합니다.)
 * -g, --miner.defaultGasPrice : "0x6FC23AC00" (30 gwei)
-
 * -p, --server.port, --port : 7545
-* 
 ```
 ganache -i 5666 --chain.chainId 4693 -m "fire entire drive car hole credit stumble endless empty rice wash banner" -p 7545 -g "0x6FC23AC00" --database.dbPath "d:\ganache4693"  
 ```
@@ -73,10 +71,11 @@ ganache -i 5666 --chain.chainId 4693 -m "fire entire drive car hole credit stumb
 ## Contract 배포
 ```
 cd script
+npm install
 node _0_deployContract.js
 ```
 
-## transfer 트랜잭션 실행
+## transfer('0x911D6B77014FA58aFD85BE49e5148CBEAA3FeE39', 1000) 트랜잭션 실행
 
 ```
 node _1_txLegacy.js
@@ -85,3 +84,79 @@ node _3_txType2.js
 node _4_web3ContractType0.js
 node _5_web3ContractType2.js
 ```
+
+## leveldb 조회
+
+```
+node leveldb.js
+```
+
+# geth LevelDB 조회
+
+## genesis.json
+
+gasLimit 참고: https://etherscan.io/chart/gaslimit
+
+```
+{
+  "config": {
+    "chainId": 4693,
+    "homesteadBlock": 0,
+    "eip150Block": 0,
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "istanbul": 0,
+    "muirglacier": 0,
+    "berlin": 0,
+    "london": 0,
+    "arrowglacier": 0,
+    "ethash": {}
+  },
+  "coinbase": "0x942F397B7f4391B43115395F469c63072aEd6E41",
+  "difficulty": "1",
+  "extraData": "",
+  "gasLimit": "30000000"
+}
+```
+
+## 초기화
+```
+geth init --datadir data genesis.json
+```
+
+## geth 실행
+* networkId : 5666
+* chainId: 4693
+* port: 7545
+```
+geth --datadir data --networkid 5666 --nodiscover --ipcdisable --http --http.port 7545 --http.api personal,eth,net,web3 --http.corsdomain '*' console 
+```
+
+기본 명령어
+```
+eth.blockNumber
+eth.mining
+miner.setEtherbase("0x942F397B7f4391B43115395F469c63072aEd6E41")
+eth.coinbase
+miner.start(1)
+miner.stop()
+
+eth.getBlock(0)
+eth.getTransaction()
+eth.getTransactionReceipt()
+```
+
+##  시나리오
+geth private network 에서 type1, type2로 호출 불가
+
+1. geth 초기화
+2. leveldb 조회 (Block 0)
+3. Token contract 배포
+4. mining block and stop
+5. leveldb 조회 (Block 1)
+6. type 0 transfer(_1_txLegancy.js) 호출
+7. mining block and stop
+8. leveldb 조회 (Block 2)

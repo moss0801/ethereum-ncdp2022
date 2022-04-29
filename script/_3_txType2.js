@@ -6,7 +6,6 @@
 import RLP from 'rlp';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const Common = require('@ethereumjs/common').default;  // https://github.com/ethereumjs/ethereumjs-monorepo/issues/978
 import util from 'ethereumjs-util';
 const secp256k1 = require("ethereum-cryptography/secp256k1");
 import Web3 from 'web3';
@@ -49,7 +48,6 @@ function hex(buffer, prefix = true) {
     let signatureR = '0x';  // 0
     let signatureS = '0x';  // 0
 
-    // Legacy Transaction (Type 0) without chainId(EIP-155)
     console.log('\n>> Prepare Sign')
     // 0x02 || rlp([chain_id, nonce, max_priority_fee_per_gas, max_fee_per_gas, gas_limit, destination, amount, data, access_list, signature_y_parity, signature_r, signature_s])
     const txItems = [

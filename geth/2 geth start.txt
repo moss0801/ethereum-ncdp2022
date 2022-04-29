@@ -1,0 +1,35 @@
+$ geth --datadir data --networkid 5666 --nodiscover --ipcdisable --http --http.port 7545 --http.api personal,eth,net,web3 --http.corsdomain '*' console
+INFO [04-30|05:07:03.481] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [04-30|05:07:03.481] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [04-30|05:07:03.501] Set global gas cap                       cap=50,000,000
+INFO [04-30|05:07:03.501] Allocated trie memory caches             clean=154.00MiB dirty=256.00MiB
+INFO [04-30|05:07:03.505] Allocated cache and file handles         database=/mnt/d/dev/go-ethereum/data/geth/chaindata cache=512.00MiB handles=2048
+INFO [04-30|05:07:04.219] Opened ancient database                  database=/mnt/d/dev/go-ethereum/data/geth/chaindata/ancient readonly=false
+INFO [04-30|05:07:04.231] Initialised chain configuration          config="{ChainID: 4693 Homestead: 0 DAO: <nil> DAOSupport: false EIP150: 0 EIP155: 0 EIP158: 0 Byzantium: 0 Constantinople: 0 Petersburg: 0 Istanbul: <nil>, Muir Glacier: <nil>, Berlin: <nil>, London: <nil>, Arrow Glacier: <nil>, MergeFork: <nil>, Terminal TD: <nil>, Engine: ethash}"
+INFO [04-30|05:07:04.291] Disk storage enabled for ethash caches   dir=/mnt/d/dev/go-ethereum/data/geth/ethash count=3
+INFO [04-30|05:07:04.291] Disk storage enabled for ethash DAGs     dir=/home/ubuntu/.ethash                    count=2
+INFO [04-30|05:07:04.306] Initialising Ethereum protocol           network=5666 dbversion=<nil>
+INFO [04-30|05:07:04.309] Loaded most recent local header          number=0 hash=935fc1..4396dc td=1 age=53y1mo1d
+INFO [04-30|05:07:04.310] Loaded most recent local full block      number=0 hash=935fc1..4396dc td=1 age=53y1mo1d
+INFO [04-30|05:07:04.310] Loaded most recent local fast block      number=0 hash=935fc1..4396dc td=1 age=53y1mo1d
+WARN [04-30|05:07:04.310] Failed to load snapshot, regenerating    err="missing or corrupted snapshot"
+INFO [04-30|05:07:04.311] Rebuilding state snapshot
+INFO [04-30|05:07:04.315] Resuming state snapshot generation       root=adcbc6..fa5857 accounts=0 slots=0 storage=0.00B elapsed=1.306ms
+INFO [04-30|05:07:04.317] Generated state snapshot                 accounts=1 slots=0 storage=47.00B elapsed=2.774ms
+INFO [04-30|05:07:04.332] Regenerated local transaction journal    transactions=0 accounts=0
+INFO [04-30|05:07:04.337] Gasprice oracle is ignoring threshold set threshold=2
+WARN [04-30|05:07:04.340] Error reading unclean shutdown markers   error="leveldb: not found"
+INFO [04-30|05:07:04.341] Starting peer-to-peer node               instance=Geth/v1.10.18-unstable-86216189-20220414/linux-amd64/go1.18.1
+INFO [04-30|05:07:04.562] New local node record                    seq=1,651,262,824,556 id=fa5edf9e293c2a8c ip=127.0.0.1 udp=0 tcp=30303
+INFO [04-30|05:07:04.563] Started P2P networking                   self="enode://8ad7bada0f416bdf61680cc3cf2ff53b3d654a9a8c5ebd6f0a5e1cc6cb579d16755d5e83b089422ecd67cbbf2e4a04d753c029713b6ad89b27fb9ae0bc7942a7@127.0.0.1:30303?discport=0"
+INFO [04-30|05:07:04.568] HTTP server started                      endpoint=127.0.0.1:7545 auth=false prefix= cors=* vhosts=localhost
+WARN [04-30|05:07:04.818] Served eth_coinbase                      reqid=3 duration="25.4µs" err="etherbase must be explicitly specified"
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.10.18-unstable-86216189-20220414/linux-amd64/go1.18.1
+at block: 0 (Thu Jan 01 1970 09:00:00 GMT+0900 (KST))
+ datadir: /mnt/d/dev/go-ethereum/data
+ modules: admin:1.0 debug:1.0 eth:1.0 ethash:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+To exit, press ctrl-d or type exit
+>

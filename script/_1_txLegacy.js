@@ -24,10 +24,11 @@ function hex(buffer, prefix = true) {
 
     // Prepare
     const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
-    const chainId = await web3.eth.getChainId();  // 4693
     const privateKey = '8d46f2260091f89d63a73a2171234835d272e0cab9fb630b4306aaf72f22e830';
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
+    //// 1.서명을 위한 트랜잭션 구성 및 RLP serialize 결과의 Hash값 생성
+    const chainId = await web3.eth.getChainId();  // 4693
     const nonce = await web3.eth.getTransactionCount(account.address);
     const gasPrice = "0x06fc23ac00"; // 30 * 10 ** 9 wei
     const gasLimit = "0x0f4240"; // 100,000 gas
@@ -50,6 +51,7 @@ function hex(buffer, prefix = true) {
     const txHash = util.keccak256(txRlp);
     console.log('txHash: ' + hex(txHash));
 
+    //// 2. Hash값과 개인키로 서명 값(recId, r, s) 생성 및 v 값 계산
     //// ECDSA sign 생성
     console.log('\n>> Sign(ECDSA)')
 
@@ -70,6 +72,7 @@ function hex(buffer, prefix = true) {
     console.log('r: ' + hex(r));
     console.log('s: ' + hex(s));
 
+    //// 3. 서명된 트랜잭션 구성 후 RLP serialize
     //// Signed Tx with v,r,s
     console.log('>> Signed Transaction')
     const signedTxItems = [nonce, gasPrice, gasLimit, to, value, data, hex(v), hex(r), hex(s)];

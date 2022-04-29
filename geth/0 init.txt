@@ -1,0 +1,12 @@
+$ geth init --datadir data genesis.json
+INFO [04-30|05:06:17.904] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [04-30|05:06:17.904] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [04-30|05:06:17.921] Set global gas cap                       cap=50,000,000
+INFO [04-30|05:06:17.922] Allocated cache and file handles         database=/mnt/d/dev/go-ethereum/data/geth/chaindata cache=16.00MiB handles=16
+INFO [04-30|05:06:18.111] Writing custom genesis block
+INFO [04-30|05:06:18.118] Persisted trie from memory database      nodes=1 size=148.00B time=5.781ms gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [04-30|05:06:18.138] Successfully wrote genesis state         database=chaindata hash=935fc1..4396dc
+INFO [04-30|05:06:18.139] Allocated cache and file handles         database=/mnt/d/dev/go-ethereum/data/geth/lightchaindata cache=16.00MiB handles=16
+INFO [04-30|05:06:18.335] Writing custom genesis block
+INFO [04-30|05:06:18.340] Persisted trie from memory database      nodes=1 size=148.00B time=3.7355ms gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [04-30|05:06:18.354] Successfully wrote genesis state         database=lightchaindata hash=935fc1..4396dc

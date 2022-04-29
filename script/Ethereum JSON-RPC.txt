@@ -1,0 +1,54 @@
+// https://playground.open-rpc.org/?schemaUrl=https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json&uiSchema%5BappBar%5D%5Bui:splitView%5D=false&uiSchema%5BappBar%5D%5Bui:input%5D=false&uiSchema%5BappBar%5D%5Bui:examplesDropdown%5D=false
+
+// id : request에 보낸 id가 response에 반환되어 match 할 수 있도록 함
+// https://stackoverflow.com/questions/2210791/json-rpc-what-is-the-id-for
+// An identifier established by the Client that MUST contain a String, Number, or NULL value if included.
+// If it is not included it is assumed to be a notification.
+// The value SHOULD normally not be Null and Numbers SHOULD NOT contain fractional parts
+
+// The Server MUST reply with the same value in the Response object if included. This member is used to correlate the context between the two objects.
+
+
+//==== eth_Call, Token.balanceOf("0x942F397B7f4391B43115395F469c63072aEd6E41")
+// Executes a new message call immediately without creating a transaction on block chain.
+
+> Request
+POST http://localhost:7545
+{
+  "jsonrpc": "2.0",
+  "method": "eth_call",
+  "params": [
+    {
+      "to": "0x60e69B73db38D52C70690a8EfCeE30383190CDFA",
+      "input": "0x70a08231000000000000000000000000942f397b7f4391b43115395f469c63072aed6e41"
+    }
+  ],
+  "id": 0
+}
+
+> Response
+{
+  "jsonrpc": "2.0",
+  "result": "0x0000000000000000000000000000000000000000000000000000000000001388",
+  "id": 0
+}
+
+//==== eth_SendRawTransaction, Token.transfer("0x60e69B73db38D52C70690a8EfCeE30383190CDFA", 1000)
+// Submits a raw transaction.
+> Request
+POST http://localhost:7545
+{
+  "jsonrpc": "2.0",
+  "method": "eth_sendRawTransaction",
+  "params": [
+    "0xf8ac068506fc23ac00830f42409460e69b73db38d52c70690a8efcee30383190cdfa80b844a9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e88224cda03f336e2cf839acfc7f76bdee51ef2d433546ed51ebb3dc0b95302784ad765017a010e8d3aeeb90829f8f3d93072facef6bfd02252d664f45e0f41628e2a2832ee3"
+  ],
+  "id": 0
+}
+
+> Response
+{
+  "jsonrpc": "2.0",
+  "result": "0xf5d596e36ee4505c31e6a371effff62a2405bb0921616c9bbdd5b938d398a2ec",
+  "id": 0
+}
