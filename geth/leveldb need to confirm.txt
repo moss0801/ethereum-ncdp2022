@@ -1,4 +1,4 @@
-block transactionHash, receiptHash 계산 방법?
+1. block transactionHash, receiptHash 계산 방법?
 
 https://github.com/hyperledger/besu/blob/main/ethereum/core/src/main/java/org/hyperledger/besu/ethereum/mainnet/BodyValidation.java#L56
 
@@ -19,4 +19,5 @@ private static Bytes indexKey(final int i) {
 transactionValue, rlpEncoding of transaction => rawTransaction
 https://github.com/hyperledger/besu/blob/main/ethereum/core/src/main/java/org/hyperledger/besu/ethereum/core/encoding/TransactionEncoder.java#L59
 
-
+2. logBloom 매핑방법
+3. Topic event signature 생성법 확인필요

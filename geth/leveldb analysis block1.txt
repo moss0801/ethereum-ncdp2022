@@ -1,3 +1,7 @@
+[] -> RLP: 0xc0 -> keccak-256: 1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347
+nil(go) -> keccak-256 -> 56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421
+"" -> keccak-256: c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+
 diff
 - 제외 목록
 -- LastBlock(4c617374426c6f636b)
@@ -7,7 +11,7 @@ diff
 
 DB스키마의 관심 prefix 체크
 - 0x48{BlockHash} :블록번호
-- 0x62{BlockHash}{BlockNumber} : BlockBody -> (확인필요) [[트랜잭셕 목록],[UncleHeader목록]]
+- 0x62{BlockHash}{BlockNumber} : BlockBody -> [[트랜잭셕 목록],[UncleHeader목록]]
 - 0x63{BytecodeHash} : {Bytecode}
 - 0x68{BlockNumber}6e : BlockHash
 - 0x68{BlockNumber}{BlockHash} : BlockHeader
@@ -56,7 +60,7 @@ DB스키마의 관심 prefix 체크
     "0x77779bf6388652ad753cc9e59cb81253fcb5229a1370baad709cd4586bb8213c",
     "0x40c8493a745d73d472ad6179af5589268189cf3221c21d0cabd84f538600c532"
 ]],[]]
-(nonce, gasPrice, gasLimit, go, value, data, v, r, s)
+(nonce, gasPrice, gasLimit, to, value, data, v, r, s)
 
 63 CodePrefix            = []byte("c") // CodePrefix + code hash -> account code
 63{BytecodeHash} : {Bytecode}
@@ -95,6 +99,9 @@ DB스키마의 관심 prefix 체크
 
 // TransactionRoot, ReceiptsRoot 어떻게 계산하지?
 
+// ExtraData: ["0x010a12","0x67657468","0x676f312e31382e31","0x6c696e7578"]
+"0x010a12" geth go1.18.1 linux
+
 
 6c txLookupPrefix        = []byte("l") // txLookupPrefix + hash -> transaction/receipt lookup metadata
 6c{TransactionHash} : {TxLookupPrefix}
@@ -103,7 +110,13 @@ DB스키마의 관심 prefix 체크
 
 72{BlockNumber}{BlockHash} : Receipts
 - '72000000000000000113c4e8a4c8432f0c4a67e32572fdb6ae55d4544803c566523f0b14a1b4a55ce2 : c7c6018307cfe3c0',
-  => [["0x01","0x07cfe3",[]]]
+  => [["0x01","0x07cfe3",  // 511971
+        []
+    ]]
+
+Receipt: https://github.com/ethereum/go-ethereum/blob/master/core/types/receipt.go#L52
+[PostStateOrStatus, CumulativeGasUsed, Logs]
+
 
 
 //==== State 구분
@@ -118,7 +131,7 @@ DB스키마의 관심 prefix 체크
   BranchNode: ["0x","0x","0x","0x","0xd5fadd65493e263392ee3bc20eab3b5ac90ec85ae25e9549cc9bae097e512c92","0x","0x200d82fc183bf63c9110d154b405a5f7984d5bd55d3dafc3f8d971ae31e437e7","0x","0x","0x","0x","0x","0x","0x","0x","0x","0x"]
     - 4: 0xd5fadd65493e263392ee3bc20eab3b5ac90ec85ae25e9549cc9bae097e512c92
       ["0x34e229de97d6dcb0cff85acd0eabdd23b939f8cc1cc1ca0595aca9135b1243b9","0xf8440180a064463b608bf4aec320f424e007ed9f9a6fbe04dbaacc8c18f60e27fb3a16a6d1a007d66a4e1d89094cab8479602a51082c45b332b0ce73399843d3030a905cb055"]
-        => keccak-256(0x60e69B73db38D52C70690a8EfCeE30383190CDFA) =
+        => keccak-256(0x60e69B73db38D52C70690a8EfCeE30383190CDFA) = 44e229de97d6dcb0cff85acd0eabdd23b939f8cc1cc1ca0595aca9135b1243b9
           + 4
           + 4e229de97d6dcb0cff85acd0eabdd23b939f8cc1cc1ca0595aca9135b1243b9
         => ["0x01","0x","0x64463b608bf4aec320f424e007ed9f9a6fbe04dbaacc8c18f60e27fb3a16a6d1","0x07d66a4e1d89094cab8479602a51082c45b332b0ce73399843d3030a905cb055"]
