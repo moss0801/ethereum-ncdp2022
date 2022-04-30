@@ -1,0 +1,22 @@
+block transactionHash, receiptHash 계산 방법?
+
+https://github.com/hyperledger/besu/blob/main/ethereum/core/src/main/java/org/hyperledger/besu/ethereum/mainnet/BodyValidation.java#L56
+
+SimpleMerklePatriciaTrie
+
+transactionHash
+ - index[0,n)를 key로 MerklePatriciaTrie에 RLP encoding 값을 추가
+ - SimpleTrie.put (https://github.com/hyperledger/besu/blob/fd007357cf2576a22e1cced0d2bd5e59be572710/ethereum/trie/src/main/java/org/hyperledger/besu/ethereum/trie/SimpleMerklePatriciaTrie.java#L79)
+ - root.accept
+ -- PutVisitor
+ -- CompactEncoding.bytesToPath(key) (https://github.com/hyperledger/besu/blob/fd007357cf2576a22e1cced0d2bd5e59be572710/ethereum/trie/src/main/java/org/hyperledger/besu/ethereum/trie/CompactEncoding.java#L27)
+
+
+private static Bytes indexKey(final int i) {
+ return RLP.encodeOne(UInt256.valueOf(i).trimLeadingZeros());
+}
+
+transactionValue, rlpEncoding of transaction => rawTransaction
+https://github.com/hyperledger/besu/blob/main/ethereum/core/src/main/java/org/hyperledger/besu/ethereum/core/encoding/TransactionEncoder.java#L59
+
+

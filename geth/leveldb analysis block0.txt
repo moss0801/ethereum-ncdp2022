@@ -10,11 +10,13 @@ nil(go) -> keccak-256 -> 56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb
 DB스키마의 관심 prefix 체크
 - 0x48{BlockHash} :블록번호
 - 0x62{BlockHash}{BlockNumber} : BlockBody -> (확인필요) [[트랜잭셕 목록],[UncleHeader목록]]
+- 0x63{BytecodeHash} : {Bytecode}
 - 0x68{BlockNumber}6e : BlockHash
 - 0x68{BlockNumber}{BlockHash} : BlockHeader
 - 0x68{BlockNumber}{BlockHash}74: Difficulty
+- 0x6c{TransactionHash} : {TxLookupPrefix} ? 무슨뜻?
 - 0x72{BlockNumber}{BlockHash} : Receipts -> []
-- 0x6c : transaction lookup (이번 DB에서 새롭게 보이는 prefix)
+
 - 0x65: [chain-config-, config]
 
 keccak-256(942f397b7f4391b43115395f469c63072aed6e41) = 65eca67d2c0211b30a217d6eb1c4804baeb869b5f75902493a5607c98ed42c61
@@ -117,8 +119,8 @@ ethereum-genesis-{BlockHash}
 "0x",
 "0x0000000000000000000000000000000000000000000000000000000000000000",
 "0x0000000000000000"]
-[ParentHash, UncleHash, Coinbase, StateRoot, TransactionRoot, ReceiptsRoot, LogBloom, Difficulty, BlockNumber,
-GasLimit, GasUsed, Timestamp, ExtraData, MixHash, Nonce]
+[ParentHash, UncleHash, Coinbase, StateRoot, TransactionRoot, ReceiptsRoot, LogBloom,
+    Difficulty, BlockNumber, GasLimit, GasUsed, Timestamp, ExtraData, MixHash, Nonce]
 
 68{BlockNumber:8bytes}{BlockHash}74 : Difficulty
 - '680000000000000000935fc1ee9e74d18005508b2a2aec8fd77d5842e384db05089ea6add7194396dc74 : 01'
@@ -141,6 +143,7 @@ unclean-shutdown :
 keccak-256(942F397B7f4391B43115395F469c63072aEd6E41) = 65eca67d2c0211b30a217d6eb1c4804baeb869b5f75902493a5607c98ed42c61
 (Leaf,Even,65eca67d2c0211b30a217d6eb1c4804baeb869b5f75902493a5607c98ed42c61)
 ["0x2065eca67d2c0211b30a217d6eb1c4804baeb869b5f75902493a5607c98ed42c61","0xf84d80893635c9adc5dea00000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
-  (Nonce, Balance, CodeHash, StorageHash)
+  https://github.com/ethereum/go-ethereum/blob/master/core/types/state_account.go
+  (Nonce, Balance, StorageHash, CodeHash)
   ["0x","0x3635c9adc5dea00000","0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421","0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
   [0, 1000000000000000000000, nil, ""]
