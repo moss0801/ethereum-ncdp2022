@@ -16,7 +16,7 @@ DB스키마의 관심 prefix 체크
 - 0x68{BlockNumber}6e : BlockHash
 - 0x68{BlockNumber}{BlockHash} : BlockHeader
 - 0x68{BlockNumber}{BlockHash}74: Difficulty
-- 0x6c{TransactionHash} : {TxLookupPrefix}
+- 0x6c{TransactionHash} : {TxLookupPrefix} <- BlockNumber
 - 0x72{BlockNumber}{BlockHash} : Receipts
 
 [
@@ -106,7 +106,7 @@ DB스키마의 관심 prefix 체크
 6c txLookupPrefix        = []byte("l") // txLookupPrefix + hash -> transaction/receipt lookup metadata
 6c{TransactionHash} : {TxLookupPrefix}
 - '6c685acb0d0a71dd14a09c1b2dedff6d04e987bcaf24f8a7e2d6113a7ea7ab018f : 01',
-- 01이 의미하는 것을 모르겠다.
+- 01이 의미하는 것을 모르겠다. <- BlockNumber
 
 72{BlockNumber}{BlockHash} : Receipts
 - '72000000000000000113c4e8a4c8432f0c4a67e32572fdb6ae55d4544803c566523f0b14a1b4a55ce2 : c7c6018307cfe3c0',
@@ -136,9 +136,17 @@ Receipt: https://github.com/ethereum/go-ethereum/blob/master/core/types/receipt.
           + 4e229de97d6dcb0cff85acd0eabdd23b939f8cc1cc1ca0595aca9135b1243b9
         => ["0x01","0x","0x64463b608bf4aec320f424e007ed9f9a6fbe04dbaacc8c18f60e27fb3a16a6d1","0x07d66a4e1d89094cab8479602a51082c45b332b0ce73399843d3030a905cb055"]
            (Nonce, Balance, StorageHash, CodeHash)
-           (1, 0, 해석못함, 63{CodeHash}로 bytecode조회)
-           StorageHash: 64463b608bf4aec320f424e007ed9f9a6fbe04dbaacc8c18f60e27fb3a16a6d1
-           ["0x20e3540e6242270704338b7fe85d1cd55f25c3cda9d49bcc86da3da724a0356bb5","0x822710"]
+           (1, 0, StorageRoot, 63{CodeHash}로 bytecode조회)
+           StorageHash: 64463b608bf4aec320f424e007ed9f9a6fbe04dbaacc8c18f60e27fb3a16a6d1 : e6a120e3540e6242270704338b7fe85d1cd55f25c3cda9d49bcc86da3da724a0356bb583822710
+           keccak(e6a120e3540e6242270704338b7fe85d1cd55f25c3cda9d49bcc86da3da724a0356bb583822710) = 64463b608bf4aec320f424e007ed9f9a6fbe04dbaacc8c18f60e27fb3a16a6d1
+           ["0x20e3540e6242270704338b7fe85d1cd55f25c3cda9d49bcc86da3da724a0356bb5","0x822710"] // [, 10000]
+           contractAddress : 60e69B73db38D52C70690a8EfCeE30383190CDFA
+           mapping(address => uint256) _balances slot: 0, address: 942f397b7f4391b43115395f469c63072aed6e41
+
+           hash(000000000000000000000000942f397b7f4391b43115395f469c63072aed6e410000000000000000000000000000000000000000000000000000000000000000) = 2f312f0e66b602cd92e13fa998f8093da22ed2e820633028f87b81c0c838a33d
+           hash(2f312f0e66b602cd92e13fa998f8093da22ed2e820633028f87b81c0c838a33d) = e3540e6242270704338b7fe85d1cd55f25c3cda9d49bcc86da3da724a0356bb5
+
+
     - 6: 0x200d82fc183bf63c9110d154b405a5f7984d5bd55d3dafc3f8d971ae31e437e7 => e6a120e3540e6242270704338b7fe85d1cd55f25c3cda9d49bcc86da3da724a0356bb583822710
       ["0x35eca67d2c0211b30a217d6eb1c4804baeb869b5f75902493a5607c98ed42c61","0xf84d018936518b1b2d2d680000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
         keccak-256(942F397B7f4391B43115395F469c63072aEd6E41) = 65eca67d2c0211b30a217d6eb1c4804baeb869b5f75902493a5607c98ed42c61
@@ -147,3 +155,8 @@ Receipt: https://github.com/ethereum/go-ethereum/blob/master/core/types/receipt.
         => ["0x01","0x36518b1b2d2d680000","0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421","0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
            (Nonce, Balance, StorageHash, CodeHash)
            (1, 1002.000000000000000000 (Reward: 2ETH), nil, "")
+
+
+
+// TransactionRoot  : 0x06a4aeb11fc81dceed594346493507b250b7da6dd80d99083c9d10da30aa8084
+// ReceiptsRoot     : 0x706cc684247433de288c9b13b3b9c661bf929d92018288245fafd763f2b1869c

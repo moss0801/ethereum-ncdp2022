@@ -29,7 +29,7 @@ function hex(buffer, prefix = true) {
 
     //// 1.서명을 위한 트랜잭션 구성 및 RLP serialize 결과의 Hash값 생성
     const chainId = await web3.eth.getChainId();  // 4693
-    const nonce = await web3.eth.getTransactionCount(account.address);
+    const nonce = await web3.eth.getTransactionCount(account.address, 'pending');
     const gasPrice = "0x06fc23ac00"; // 30 * 10 ** 9 wei
     const gasLimit = "0x0f4240"; // 100,000 gas
     const to = "0x60e69B73db38D52C70690a8EfCeE30383190CDFA";

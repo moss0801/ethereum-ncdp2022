@@ -13,8 +13,10 @@
   "dependencies": {
     "@ethereumjs/common": "^2.6.4",
     "@ethereumjs/tx": "^3.5.1",
+    "@ethereumjs/vm": "^5.9.0",
     "@noble/secp256k1": "^1.5.5",
     "ethereum-cryptography": "^1.0.3",
+    "ethereumjs-util": "^7.1.4",
     "leveldown": "^6.1.1",
     "levelup": "^5.1.1",
     "web3": "^1.7.3"

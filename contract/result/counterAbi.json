@@ -1,0 +1,23 @@
+[
+  {
+    "type": "function",
+    "name": "up",
+    "stateMutability": "nonpayable",
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "count",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ]
+  }
+]
+
