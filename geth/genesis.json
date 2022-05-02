@@ -8,9 +8,14 @@
     "byzantiumBlock": 0,
     "constantinopleBlock": 0,
     "petersburgBlock": 0,
+    "istanbulBlock": 0,
+    "muirGlacierBlock": 0,
+    "berlinBlock": 0,
+    "londonBlock": 0,
+    "arrowGlacierBlock": 0,
     "ethash": {}
   },
-  "difficulty": "1",
+  "difficulty": "131072",
   "extraData": "",
   "gasLimit": "30000000",
   "alloc": {
