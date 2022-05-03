@@ -97,6 +97,13 @@ node leveldb.js
 
 gasLimit 참고: https://etherscan.io/chart/gaslimit
 
+
+[core/genesis.go](https://github.com/ethereum/go-ethereum/blob/master/core/genesis.go), 
+[params/config.go](https://github.com/ethereum/go-ethereum/blob/master/params/config.go),
+[params/protocol_params.go](https://github.com/ethereum/go-ethereum/blob/master/params/protocol_params.go)
+
+* difficulty : protocol_params.GenesisDifficulty
+
 ```
 {
   "config": {
@@ -108,17 +115,19 @@ gasLimit 참고: https://etherscan.io/chart/gaslimit
     "byzantiumBlock": 0,
     "constantinopleBlock": 0,
     "petersburgBlock": 0,
-    "istanbul": 0,
-    "muirglacier": 0,
-    "berlin": 0,
-    "london": 0,
-    "arrowglacier": 0,
+    "istanbulBlock": 0,
+    "muirGlacierBlock": 0,
+    "berlinBlock": 0,
+    "londonBlock": 0,
+    "arrowGlacierBlock": 0,
     "ethash": {}
   },
-  "coinbase": "0x942F397B7f4391B43115395F469c63072aEd6E41",
-  "difficulty": "1",
+  "difficulty": "131072",
   "extraData": "",
-  "gasLimit": "30000000"
+  "gasLimit": "29970705",
+  "alloc": {
+    "942F397B7f4391B43115395F469c63072aEd6E41": { "balance": "1000000000000000000000" }
+  }
 }
 ```
 
