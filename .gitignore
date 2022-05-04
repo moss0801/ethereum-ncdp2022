@@ -1,3 +1,5 @@
 /script/node_modules/
 /contract/build/
 /.idea/
+/part2/node_modules/
+/part1/node_modules/
