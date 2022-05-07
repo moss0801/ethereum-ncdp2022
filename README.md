@@ -30,7 +30,7 @@ contract/build/contract/Token.json 에서 ABI 와 bytecode 확인 가능
 
 ## 트랜잭션
 
-* [_0_deployContract.js](./script/_0_deployContract.js) : Token.sol 컨트랙트 배포
+* [_00_deployContract.js](./script/_0_deployContract.js) : Token.sol 컨트랙트 배포
 * [_1_txLegacy.js](./script/_1_txLegacy.js) : transfer() 호출 - Type 0 Legacy Transaction 이용
 * [_2_txType1.js](./script/_2_txType1.js) : transfer() 호출 - Type 1[EIP-2930: Optional access lists] 이용
 * [_3_txType2.js](./script/_3_txType2.js) : transfer() 호출 - Type 2[EIP-1559: Fee market change for ETH 1.0 chain] 이용
@@ -72,7 +72,7 @@ ganache -i 5666 --chain.chainId 4693 -m "fire entire drive car hole credit stumb
 ```
 cd script
 npm install
-node _0_deployContract.js
+node _00_deployContract.js
 ```
 
 ## transfer('0x911D6B77014FA58aFD85BE49e5148CBEAA3FeE39', 1000) 트랜잭션 실행

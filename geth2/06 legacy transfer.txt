@@ -1,0 +1,69 @@
+WARN [05-08|06:19:08.536] Served eth_sendRawTransaction            conn=127.0.0.1:56850 reqid=1 duration="144.6µs" err="only replay-protected (EIP-155) transactions allowed over RPC"
+INFO [05-08|06:19:45.148] Setting new local account                address=0x942F397B7f4391B43115395F469c63072aEd6E41
+INFO [05-08|06:19:45.149] Submitted transaction                    hash=0xaf1ad2f6b02595cfcf8fdbb78e69be2f15e762c915dcf708fdfe3d1f02c80848 from=0x942F397B7f4391B43115395F469c63072aEd6E41 nonce=1 recipient=0x60e69B73db38D52C70690a8EfCeE30383190CDFA value=0
+
+> miner.setEtherbase("0x942F397B7f4391B43115395F469c63072aEd6E41")
+true
+> miner.start(1)
+INFO [05-08|06:21:14.199] Updated mining threads                   threads=1
+INFO [05-08|06:21:14.199] Transaction pool price threshold updated price=1,000,000,000
+null
+> INFO [05-08|06:21:14.200] Commit new sealing work                  number=2 sealhash=2d3858..8a8395 uncles=0 txs=0 gas=0 fees=0 elapsed="289.3µs"
+INFO [05-08|06:21:14.200] Commit new sealing work                  number=2 sealhash=fa48f2..76cf06 uncles=0 txs=1 gas=52246 fees=0.0015272141 elapsed="852.8µs"
+> miner.stop()INFO [05-08|06:21:16.018] Successfully sealed new block            number=2 sealhash=fa48f2..76cf06 hash=b3ee23..092720 elapsed=1.818s
+INFO [05-08|06:21:16.018] 🔨 mined potential block                  number=2 hash=b3ee23..092720
+INFO [05-08|06:21:16.019] Commit new sealing work                  number=3 sealhash=353dac..4b9714 uncles=0 txs=0 gas=0     fees=0            elapsed="580.6µs"
+INFO [05-08|06:21:16.019] Commit new sealing work                  number=3 sealhash=353dac..4b9714 uncles=0 txs=0 gas=0     fees=0            elapsed="983.2µs"
+
+
+
+//====
+================================================
+==== Type 0 Legacy without chainId(EIP-155) ====
+================================================
+address: 0x942F397B7f4391B43115395F469c63072aEd6E41
+
+>> Prepare Sign
+txItems: 0,0x06fc23ac00,0x0f4240,0x60e69B73db38D52C70690a8EfCeE30383190CDFA,0x,0xa9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e8,0x,0x,0x
+txRlp: 0xf86a808506fc23ac00830f42409460e69b73db38d52c70690a8efcee30383190cdfa80b844a9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e8808080
+txHash: 0xd01f4a8b9c55dcd791ea2dd45c406ab666bf03e134808ae4647f56d0004b6cfd
+
+>> Sign(ECDSA)
+recId: 0
+v: 0x1b
+r: 0xc24c83783278bd57896258b9f7160525c893a202f9144f7be95f65a793f06303
+s: 0x6d2e45144bfc272eb22847bb52a38e3d67497325ef160af4f461de4fad8a2385
+>> Signed Transaction
+    [
+    0,
+        '0x06fc23ac00',
+        '0x0f4240',
+        '0x60e69B73db38D52C70690a8EfCeE30383190CDFA',
+        '0x',
+        '0xa9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e8',
+        '0x1b',
+        '0xc24c83783278bd57896258b9f7160525c893a202f9144f7be95f65a793f06303',
+        '0x6d2e45144bfc272eb22847bb52a38e3d67497325ef160af4f461de4fad8a2385'
+    ]
+signedTxRlp:
+    0xf8aa808506fc23ac00830f42409460e69b73db38d52c70690a8efcee30383190cdfa80b844a9059cbb000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee3900000000000000000000000000000000000000000000000000000000000003e81ba0c24c83783278bd57896258b9f7160525c893a202f9144f7be95f65a793f06303a06d2e45144bfc272eb22847bb52a38e3d67497325ef160af4f461de4fad8a2385
+signedTxHash : 0xd774c2983648463b651f69ec7042d88547f75e3103c1127ff6ac1e4814dbd1f2
+
+>> Send Transaction
+/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/web3-core-helpers/lib/errors.js:28
+var err = new Error('Returned error: ' + message);
+^
+
+Error: Returned error: only replay-protected (EIP-155) transactions allowed over RPC
+at Object.ErrorResponse (/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/web3-core-helpers/lib/errors.js:28:19)
+at /mnt/d/dev/ethereum-ncdp2022/part2/node_modules/web3-core-requestmanager/lib/index.js:300:36
+at XMLHttpRequest.request.onreadystatechange (/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/web3-providers-http/lib/index.js:98:13)
+at XMLHttpRequestEventTarget.dispatchEvent (/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/xhr2-cookies/dist/xml-http-request-event-target.js:34:22)
+at XMLHttpRequest._setReadyState (/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/xhr2-cookies/dist/xml-http-request.js:208:14)
+at XMLHttpRequest._onHttpResponseEnd (/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/xhr2-cookies/dist/xml-http-request.js:318:14)
+at IncomingMessage.<anonymous> (/mnt/d/dev/ethereum-ncdp2022/part2/node_modules/xhr2-cookies/dist/xml-http-request.js:289:61)
+at IncomingMessage.emit (node:events:539:35)
+at endReadableNT (node:internal/streams/readable:1345:12)
+at processTicksAndRejections (node:internal/process/task_queues:83:21) {
+    data: null
+}

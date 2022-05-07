@@ -1,0 +1,16 @@
+> miner.setEtherbase("0x942F397B7f4391B43115395F469c63072aEd6E41")
+true
+
+INFO [05-08|06:14:58.763] Setting new local account                address=0x942F397B7f4391B43115395F469c63072aEd6E41
+INFO [05-08|06:14:58.765] Submitted contract creation              hash=0x1db48c64ff65f20f085d9b127f2a5c081ea2735ba43aba9ad2b076d994cc50d5 from=0x942F397B7f4391B43115395F469c63072aEd6E41 nonce=0 contract=0x60e69B73db38D52C70690a8EfCeE30383190CDFA value=0
+
+> miner.start(1)
+INFO [05-08|06:15:58.038] Updated mining threads                   threads=1
+INFO [05-08|06:15:58.038] Transaction pool price threshold updated price=1,000,000,000
+INFO [05-08|06:15:58.038] Commit new sealing work                  number=1 sealhash=36e1ca..1a43ff uncles=0 txs=0 gas=0 fees=0 elapsed="275.1µs"
+INFO [05-08|06:15:58.039] Commit new sealing work                  number=1 sealhash=928f8e..d6a8ee uncles=0 txs=1 gas=433,263 fees=0.01261878488 elapsed="681.5µs"
+INFO [05-08|06:16:05.553] Successfully sealed new block            number=1 sealhash=928f8e..d6a8ee hash=01cfe2..970cb0 elapsed=7.514s
+INFO [05-08|06:16:05.553] 🔨 mined potential block                  number=1 hash=01cfe2..970cb0
+INFO [05-08|06:16:05.554] Commit new sealing work                  number=2 sealhash=9a8a4a..8982ac uncles=0 txs=0 gas=0       fees=0             elapsed="330.4µs"
+INFO [05-08|06:16:05.554] Commit new sealing work                  number=2 sealhash=9a8a4a..8982ac uncles=0 txs=0 gas=0       fees=0             elapsed="686.7µs"
+> miner.stop()

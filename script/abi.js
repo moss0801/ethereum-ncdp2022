@@ -2,7 +2,7 @@
 import Web3 from 'web3';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const tokenAbi = require('./contract/Token.json');
+const token = require('./contract/Token.json');
 
 const web3 = new Web3();
 
@@ -20,6 +20,7 @@ const functionSelector = web3.eth.abi.encodeFunctionSignature({
 });
 console.log('Function Selector : transfer(address,uint256)');
 console.log(functionSelector);
+const transferSelector = functionSelector;
 // 0xa9059cbb
 
 // Argument Encoding
@@ -45,12 +46,13 @@ const abiEncoding = web3.eth.abi.encodeFunctionCall({
 }, ['0x911D6B77014FA58aFD85BE49e5148CBEAA3FeE39', 1000]);
 console.log('ABI Encoding : transfer("0x911d6b77014fa58afd85be49e5148cbeaa3fee39", 1000)')
 console.log(abiEncoding);
+
 // 0xa9059cbb
 // 000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee39
 // 00000000000000000000000000000000000000000000000000000000000003e8
 
 // ABI encoding /w Contract
-const tokenContract = new web3.eth.Contract(tokenAbi);
+const tokenContract = new web3.eth.Contract(token.abi);
 const abiEncodingWithContract = tokenContract.methods.transfer("0x911D6B77014FA58aFD85BE49e5148CBEAA3FeE39", 1000).encodeABI();
 console.log('ABI Encoding with contract : transfer("0x911d6b77014fa58afd85be49e5148cbeaa3fee39", 1000)')
 console.log(abiEncodingWithContract);
@@ -154,3 +156,15 @@ console.log(web3.eth.abi.encodeParameters(['address','uint256'], ["0x911d6b77014
 // 0x
 // 000000000000000000000000911d6b77014fa58afd85be49e5148cbeaa3fee39
 // 00000000000000000000000000000000000000000000000000000000000003e8
+
+// Example 5
+console.log('Example 5 : transfer(address, uint256) => transfer("0xCCFABb539c00b027C4aDa322D6BAcb6A1DAf99f0", 2000)');
+console.log(web3.eth.abi.encodeParameters(['address','uint256'], ["0xCCFABb539c00b027C4aDa322D6BAcb6A1DAf99f0", 2000]));
+
+// Example 6
+console.log('Example 6 : transfer(address, uint256) => transfer("0x06B90a7D72E2988ba2711d22e91eb324686104A1", 3000)');
+console.log(web3.eth.abi.encodeParameters(['address','uint256'], ["0x06B90a7D72E2988ba2711d22e91eb324686104A1", 3000]));
+
+// Example 7
+console.log('Example 7 : transfer(address, uint256) => transfer("0x9eC7ECE7CD21fcCAb59c3B0bB1FF2b4103091cC2", 4000)');
+console.log(web3.eth.abi.encodeParameters(['address','uint256'], ["0x9eC7ECE7CD21fcCAb59c3B0bB1FF2b4103091cC2", 4000]));

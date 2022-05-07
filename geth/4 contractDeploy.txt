@@ -5,7 +5,7 @@ true
 "0x942f397b7f4391b43115395f469c63072aed6e41"
 
 // Deploy
-$ node _0_deployContract.js
+$ node _00_deployContract.js
 =======================================
 ==== Deploy Token Contract(Type 0) ====
 =======================================
